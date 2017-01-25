@@ -1,6 +1,6 @@
 var util = require('util');
 
-var bleno = require('../..');
+var bleno = require('..');
 
 var BlenoPrimaryService = bleno.PrimaryService;
 

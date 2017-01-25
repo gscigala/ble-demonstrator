@@ -2,8 +2,8 @@
 NOTE: This example no longer works on OSX starting in 10.10 (Yosemite). Apple has apparently blacklisted the battery uuid.
 */
 
-var bleno = require('../..');
-var BatteryService = require('./temperature-service');
+var bleno = require('..');
+var TemperatureService = require('./temperature-service');
 
 var primaryService = new TemperatureService();
 

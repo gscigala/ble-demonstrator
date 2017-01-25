@@ -1,23 +1,23 @@
 //TODO : add licence
 
-#include "ExternProc.h"
+#include "BLEexternProc_main.h"
+
+#include <iostream>
 
 
-class BLEprocess: public ExternProcClient{
-	public:
-		//needs to be reimplemented
-		virtual bool setup(int &argc, char **&argv);
-		virtual bool procMain();
-
-		virtual ~BLEprocess();
+hci_state BLEprocess::open_default_hci_device(){
+	hci_state current_hci_state;
+	current_hci_state.device_id = hci_get_route(NULL);
 	
-	protected:
-		int getValue(const string &device);
-		list<string> scanDevices();
-		void sendValues();
+	if((current_hci_state.device_handle = hci_open_dev(current_hci_state.device_id)) < 0){
+		current_hci_state.has_error = true;
+		
+}
 
-		virtual void readTimeout();
-		virtual void messageReceived(const string &msg);
+
+
+list<string> BLEprocess::scanDevices(){
+	
 }
 
 int BLEprocess::getValue(){
@@ -36,4 +36,5 @@ void BLEprocess::readTimeout{
   	}
 
 	sendMessage(jdata.dump());	
-}	
+}
+

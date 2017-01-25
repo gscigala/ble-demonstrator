@@ -3,15 +3,15 @@ NOTE: This example no longer works on OSX starting in 10.10 (Yosemite). Apple ha
 */
 
 var bleno = require('../..');
-var BatteryService = require('./battery-service');
+var BatteryService = require('./temperature-service');
 
-var primaryService = new BatteryService();
+var primaryService = new TemperatureService();
 
 bleno.on('stateChange', function(state) {
   console.log('on -> stateChange: ' + state);
 
   if (state === 'poweredOn') {
-    bleno.startAdvertising('Battery', [primaryService.uuid]);
+    bleno.startAdvertising('Temperature', [primaryService.uuid]);
   } else {
     bleno.stopAdvertising();
   }

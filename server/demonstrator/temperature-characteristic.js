@@ -41,9 +41,9 @@ TemperatureCharacteristic.prototype.onSubscribe = function(maxValueSize, updateV
             temperature = 50;
         }
 
-        console.log('TemperatureCharacteristic update value: ' + batteryLevel);
+        console.log('TemperatureCharacteristic update value: ' + temperature);
         
-        var data = new Buffer([batteryLevel]);
+        var data = new Buffer([temperature]);
         updateValueCallback(data);
         
     }.bind(this), 60000);

@@ -26,3 +26,30 @@ bleno.on('advertisingStart', function(error) {
     });
   }
 });
+
+bleno.on('advertisingStop', function(error)
+{
+    console.log('on -> advertisingStop');
+});
+
+bleno.on('servicesSet', function(error) {
+    console.log('on -> servicesSet: ' + (error ? 'error ' + error : 'success'));
+});
+
+bleno.on('mtuChange', function(mtu) {
+    console.log('on -> mtuChange: ' + mtu);
+});
+
+bleno.on('accept', function(clientAddress) {
+    console.log('on -> accept, client: ' + clientAddress);
+
+    bleno.updateRssi();
+});
+
+bleno.on('disconnect', function(clientAddress) {
+    console.log('on -> disconnect, client: ' + clientAddress);
+});
+
+bleno.on('rssiUpdate', function(rssi) {
+    console.log('on -> rssiUpdate: ' + rssi);
+});

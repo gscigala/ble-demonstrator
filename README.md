@@ -29,6 +29,8 @@ Copy server/demonstrator directory in the bleno directory:
 Client installation
 -------------------
 
+NOTE : The current C BlueZ program is just the BlueZ gatt example !!
+
 ### Compile BlueZ C program
 
 To compile BlueZ C program, go in the `client/bluez` directory and execute:

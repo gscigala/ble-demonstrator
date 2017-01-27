@@ -7,3 +7,6 @@
 auto-save-list
 tramp
 .\#*
+
+#Client compilation
+build_client

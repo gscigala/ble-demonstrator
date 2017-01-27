@@ -10,6 +10,10 @@ Server installation
 
 - Copy sources
 
+Client installation
+
+- Compile BlueZ C program
+
 Server installation
 -------------------
 
@@ -21,3 +25,12 @@ The device simulation uses bleno, a Node.js module for implementing BLE peripher
 Copy server/demonstrator directory in the bleno directory:
 
 `node_modules/bleno`
+
+Client installation
+-------------------
+
+### Compile BlueZ C program
+
+To compile BlueZ C program, go in the `client/bluez` directory and execute:
+
+`clang *.c -o client -lbluetooth`

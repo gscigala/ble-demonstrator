@@ -155,8 +155,8 @@ int mainloop_run(void)
 			struct mainloop_data *data = events[n].data.ptr;
 
 			data->callback(data->fd, events[n].events,
-							data->user_data);
-		}
+                     data->user_data);
+    }
 	}
 
 	if (signal_data) {

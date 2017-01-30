@@ -589,6 +589,9 @@ static void cmd_read_value(struct client *cli, char *cmd_str)
 	if (!bt_gatt_client_read_value(cli->gatt, handle, read_cb,
 								NULL, NULL))
 		printf("Failed to initiate read value procedure\n");
+	if (!bt_gatt_client_read_value(cli->gatt, handle, read_cb,
+								NULL, NULL))
+		printf("Failed to initiate read value procedure\n");
 }
 
 static void read_long_value_usage(void)
@@ -1521,8 +1524,16 @@ int main(int argc, char *argv[])
 	int fd;
 	sigset_t mask;
 	struct client *cli;
+  char* addr = "7C:D1:C3:F5:8A:92";
 
-	while ((opt = getopt_long(argc, argv, "+hvs:m:t:d:i:",
+  dst_addr_given = true;
+  if (str2ba(addr, &dst_addr) < 0) {
+    fprintf(stderr, "Invalid remote address: %s\n",
+            optarg);
+    return EXIT_FAILURE;
+  }
+
+	/*while ((opt = getopt_long(argc, argv, "+hvs:m:t:d:i:",
 						main_options, NULL)) != -1) {
 		switch (opt) {
 		case 'h':
@@ -1593,7 +1604,7 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Invalid option: %c\n", opt);
 			return EXIT_FAILURE;
 		}
-	}
+    }*/
 
 	if (!argc) {
 		usage();
@@ -1646,10 +1657,14 @@ int main(int argc, char *argv[])
 
 	mainloop_set_signal(&mask, signal_cb, NULL, NULL);
 
+  if (!bt_gatt_client_read_value(cli->gatt, 42, read_cb,
+                                 NULL, NULL))
+		printf("Failed to initiate read value procedure\n");
+  
 	print_prompt();
 
 	mainloop_run();
-
+  
 	printf("\n\nShutting down...\n");
 
 	client_destroy(cli);

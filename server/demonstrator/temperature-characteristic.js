@@ -25,7 +25,9 @@ var TemperatureCharacteristic = function() {
 util.inherits(TemperatureCharacteristic, Characteristic);
 
 TemperatureCharacteristic.prototype.onReadRequest = function(offset, callback) {
-    // return hardcoded value
+    console.log('TemperatureCharacteristic read :', temperature);
+    
+    // return value
     callback(this.RESULT_SUCCESS, new Buffer([temperature]));
 };
 

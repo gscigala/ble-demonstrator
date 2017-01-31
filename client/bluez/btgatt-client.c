@@ -1524,16 +1524,8 @@ int main(int argc, char *argv[])
 	int fd;
 	sigset_t mask;
 	struct client *cli;
-  char* addr = "7C:D1:C3:F5:8A:92";
 
-  dst_addr_given = true;
-  if (str2ba(addr, &dst_addr) < 0) {
-    fprintf(stderr, "Invalid remote address: %s\n",
-            optarg);
-    return EXIT_FAILURE;
-  }
-
-	/*while ((opt = getopt_long(argc, argv, "+hvs:m:t:d:i:",
+	while ((opt = getopt_long(argc, argv, "+hvs:m:t:d:i:",
 						main_options, NULL)) != -1) {
 		switch (opt) {
 		case 'h':
@@ -1604,7 +1596,7 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Invalid option: %c\n", opt);
 			return EXIT_FAILURE;
 		}
-    }*/
+  }
 
 	if (!argc) {
 		usage();
@@ -1657,8 +1649,8 @@ int main(int argc, char *argv[])
 
 	mainloop_set_signal(&mask, signal_cb, NULL, NULL);
 
-  if (!bt_gatt_client_read_value(cli->gatt, 42, read_cb,
-                                 NULL, NULL))
+  if (!bt_gatt_client_read_value(cli->gatt, 12, read_cb,
+                                 NULL, NULL)) //Hardcoded Handle
 		printf("Failed to initiate read value procedure\n");
   
 	print_prompt();

@@ -1,0 +1,3 @@
+[submodule "client/tinyb"]
+	path = client/tinyb
+	url = git@github.com:intel-iot-devkit/tinyb.git

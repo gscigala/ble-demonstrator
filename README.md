@@ -8,7 +8,8 @@ Summary
 
 Server installation
 
-- Copy sources
+- Copy bleno sources
+- Copy gatt sources
 
 Client installation
 
@@ -20,7 +21,9 @@ Server installation
 
 The device simulation uses bleno, a Node.js module for implementing BLE peripherals. For more informations about noble, please visit https://github.com/sandeepmistry/bleno
 
-### Copy sources
+The device simulation uses also gatt, a go program. For more informations about gatt, please visit https://github.com/paypal/gatt
+
+### Copy bleno sources
 
 Copy server/demonstrator directory in the bleno directory:
 

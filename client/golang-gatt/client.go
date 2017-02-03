@@ -107,6 +107,7 @@ func onPeriphConnected(p gatt.Peripheral, err error) {
 	
 	fmt.Printf("Waiting for 5 minutes to get some notifiations.\n")
 	time.Sleep(5 * time.Minute)
+	fmt.Printf("End of notification time.\n");
 }
 
 func onPeriphDisconnected(p gatt.Peripheral, err error) {

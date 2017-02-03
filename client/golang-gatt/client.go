@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/paypal/gatt"
-	"github.com/paypal/gatt/examples/option"
+	"github.com/gscigala/ble-demonstrator/client/golang-gatt/option"
 )
 
 var done = make(chan struct{})
@@ -55,7 +55,7 @@ func onPeriphConnected(p gatt.Peripheral, err error) {
 		fmt.Printf("Failed to set MTU, err: %s\n", err)
 	}
 
-	// Discovery services
+  // Discovery services
 	ss, err := p.DiscoverServices(nil)
 	if err != nil {
 		fmt.Printf("Failed to discover services, err: %s\n", err)
@@ -63,77 +63,50 @@ func onPeriphConnected(p gatt.Peripheral, err error) {
 	}
 
 	for _, s := range ss {
-		msg := "Service: " + s.UUID().String()
-		if len(s.Name()) > 0 {
-			msg += " (" + s.Name() + ")"
-		}
-		fmt.Println(msg)
-
-		// Discovery characteristics
+// Get the temperature characteristic which is identified by the UUID: \xFFE1
 		cs, err := p.DiscoverCharacteristics(nil, s)
 		if err != nil {
-			fmt.Printf("Failed to discover characteristics, err: %s\n", err)
+			log.Printf("ERROR: Failed to discover characteristics - %s\n", err)
 			continue
 		}
 
 		for _, c := range cs {
-			msg := "  Characteristic  " + c.UUID().String()
-			if len(c.Name()) > 0 {
-				msg += " (" + c.Name() + ")"
-			}
-			msg += "\n    properties    " + c.Properties().String()
-			fmt.Println(msg)
+			if (c.UUID().Equal(gatt.UUID16(0xFFE1))) {
+				// Read the characteristic
+				if (c.Properties() & gatt.CharRead) != 0 {
+					b, err := p.ReadCharacteristic(c)
+					if err != nil {
+						fmt.Printf("Failed to read characteristic, err: %s\n", err)
+						continue
+					}
+					fmt.Printf("Read characteristic: temperature value %d | 0x%x | %q\n", b, b, b)
+				}
 
-			// Read the characteristic, if possible.
-			if (c.Properties() & gatt.CharRead) != 0 {
-				b, err := p.ReadCharacteristic(c)
+
+				// Discover the characteristic descriptors.
+				_, err := p.DiscoverDescriptors(nil, c)
 				if err != nil {
-					fmt.Printf("Failed to read characteristic, err: %s\n", err)
+					log.Printf("ERROR: Failed to discover descriptors - %s\n", err)
 					continue
 				}
-				fmt.Printf("    value         %x | %q\n", b, b)
-			}
 
-			// Discovery descriptors
-			ds, err := p.DiscoverDescriptors(nil, c)
-			if err != nil {
-				fmt.Printf("Failed to discover descriptors, err: %s\n", err)
-				continue
-			}
-
-			for _, d := range ds {
-				msg := "  Descriptor      " + d.UUID().String()
-				if len(d.Name()) > 0 {
-					msg += " (" + d.Name() + ")"
-				}
-				fmt.Println(msg)
-
-				// Read descriptor (could fail, if it's not readable)
-				b, err := p.ReadDescriptor(d)
-				if err != nil {
-					fmt.Printf("Failed to read descriptor, err: %s\n", err)
-					continue
-				}
-				fmt.Printf("    value         %x | %q\n", b, b)
-			}
-
-			// Subscribe the characteristic, if possible.
-			if (c.Properties() & (gatt.CharNotify | gatt.CharIndicate)) != 0 {
-				f := func(c *gatt.Characteristic, b []byte, err error) {
-					fmt.Printf("notified: % X | %q\n", b, b)
-				}
-				if err := p.SetNotifyValue(c, f); err != nil {
-					fmt.Printf("Failed to subscribe characteristic, err: %s\n", err)
-					continue
+				// Subscribe the characteristic, if possible.
+				if (c.Properties() & (gatt.CharNotify | gatt.CharIndicate)) != 0 {
+					f := func(c *gatt.Characteristic, b []byte, err error) {
+						fmt.Printf("notified: %d | 0x%x | %q\n", b, b, b)
+					}
+					if err := p.SetNotifyValue(c, f); err != nil {
+						fmt.Printf("Failed to subscribe characteristic, err: %s\n", err)
+						continue
+					}
 				}
 			}
-
 		}
-		fmt.Println()
+		log.Println()
 	}
-
-	fmt.Printf("Waiting for 5 seconds to get some notifiations, if any.\n")
-	time.Sleep(5 * time.Second)
+	
+	fmt.Printf("Waiting for 5 minutes to get some notifiations.\n")
+	time.Sleep(5 * time.Minute)
 }
 
 func onPeriphDisconnected(p gatt.Peripheral, err error) {

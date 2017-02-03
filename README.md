@@ -6,14 +6,14 @@ BLE communication demonstrator, using bleno for the server and bluez for the cli
 Summary
 -------
 
-Server installation
+Server
 
-- Copy bleno sources
-- Copy gatt sources
+- Run bleno simulation
+- Rune gatt simulation
 
-Client installation
+Client
 
-- Compile BlueZ C program
+- BlueZ C program
 
 Server
 ------

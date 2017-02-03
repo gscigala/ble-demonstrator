@@ -7,8 +7,8 @@ import (
 	"log"
 
 	"github.com/paypal/gatt"
-	"github.com/gscigala/ble-demonstrator/server/gatt/option"
-	"github.com/gscigala/ble-demonstrator/server/gatt/service"
+	"github.com/gscigala/ble-demonstrator/server/golang-gatt/option"
+	"github.com/gscigala/ble-demonstrator/server/golang-gatt/service"
 )
 
 func main() {

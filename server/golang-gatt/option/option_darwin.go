@@ -1,15 +1,11 @@
-package gatt
+package option
 
-const (
-	CentralManager    = 0 // Client functions (default)
-	PeripheralManager = 1 // Server functions
-)
+import "github.com/paypal/gatt"
 
-// MacDeviceRole specify the XPC connection type to connect blued.
-// THis option can only be used with NewDevice on OS X implementation.
-func MacDeviceRole(r int) Option {
-	return func(d Device) error {
-		d.(*device).role = r
-		return nil
-	}
+var DefaultClientOptions = []gatt.Option{
+	gatt.MacDeviceRole(gatt.CentralManager),
+}
+
+var DefaultServerOptions = []gatt.Option{
+	gatt.MacDeviceRole(gatt.PeripheralManager),
 }

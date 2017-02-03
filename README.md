@@ -1,7 +1,7 @@
 README
 ======
 
-BLE communication demonstrator, using bleno for the server and bluez for the client.
+BLE communication demonstrator, using nodejs-bleno/golang-gatt for the server and bluez/bluez-dbus for the client.
 
 Summary
 -------
